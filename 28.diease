@@ -1,0 +1,24 @@
+% Facts about symptoms and diseases
+symptom(john, fever).
+symptom(john, headache).
+symptom(john, cough).
+symptom(mary, fever).
+symptom(mary, sore_throat).
+symptom(mary, fatigue).
+
+disease(cold, [fever, headache, cough]).
+disease(flu, [fever, headache, fatigue]).
+disease(strep_throat, [fever, sore_throat]).
+
+% Rule for diagnosing diseases
+diagnose(Patient, Disease) :-
+    symptom(Patient, Symptom),
+    disease(Disease, Symptoms),
+    member(Symptom, Symptoms),
+    not(missing_symptom(Patient, Disease, Symptoms)).
+
+missing_symptom(Patient, Disease, Symptoms) :-
+    disease(Disease, AllSymptoms),
+    member(MissingSymptom, AllSymptoms),
+    not(member(MissingSymptom, Symptoms)),
+    symptom(Patient, MissingSymptom).
